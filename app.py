@@ -16,10 +16,13 @@ def results():
 
     # fetch action from json
     action = req.get('queryResult').get('action')
+    if action == "get_results":
+        # return a fulfillment response
+        return {'fulfillmentText': 'This is a response from webhook.'}
 
-    # return a fulfillment response
-    return {'fulfillmentText': 'This is a response from webhook.'}
+        
 
+    
 # create a route for webhook
 @app.route('/webhook', methods=['GET', 'POST'])
 def webhook():
