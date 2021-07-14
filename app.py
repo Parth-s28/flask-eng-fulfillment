@@ -1,5 +1,6 @@
 # import flask dependencies
 from flask import Flask, request, make_response, jsonify
+from library.df_response_lib import * 
 
 # initialize the flask app
 app = Flask(__name__)
@@ -18,7 +19,21 @@ def results():
     action = req.get('queryResult').get('action')
     if action == "get_results":
         # return a fulfillment response
-        return {'fulfillmentText': 'This is a response from webhook.'}
+        fulfillmentText = 'Basic card Response from webhook'
+
+		aog = actions_on_google_response()
+		aog_sr = aog.simple_response([
+			[fulfillmentText, fulfillmentText, False]
+		])
+
+		basic_card = aog.basic_card("Title", "Subtitle", "This is formatted text", image=["https://www.pragnakalp.com/wp-content/uploads/2018/12/logo-1024.png", "this is accessibility text"])
+
+		ff_response = fulfillment_response()
+		ff_text = ff_response.fulfillment_text(fulfillmentText)
+		ff_messages = ff_response.fulfillment_messages([aog_sr, basic_card])
+
+		reply = ff_response.main_response(ff_text, ff_messages)
+    return jsonify(reply)
 
         
 
