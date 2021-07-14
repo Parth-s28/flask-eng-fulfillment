@@ -33,7 +33,7 @@ def results():
 		ff_messages = ff_response.fulfillment_messages([aog_sr, basic_card])
 
 		reply = ff_response.main_response(ff_text, ff_messages)
-    return jsonify(reply)
+    return reply
 
         
 
